@@ -3,7 +3,7 @@ import os
 from faker import Faker
 from random import randint, sample
 
-runic_alphabet = {
+RUNIC_ALPHABET = {
     'а': 'а͠',
     'б': 'б̋',
     'в': 'в͒͠',
@@ -73,7 +73,7 @@ runic_alphabet = {
     ' ': ' '
 }
 
-skills = (
+SKILLS = (
     'Стремительный прыжок',
     'Электрический выстрел',
     'Ледяной удар',
@@ -82,10 +82,10 @@ skills = (
     'Тайный побег',
     'Ледяной выстрел',
     'Огненный заряд'
-    )
+)
 
 
-def main():
+def create_characters():
     file_path = "персонажи"
     os.makedirs(file_path, exist_ok=True)
     
@@ -95,11 +95,11 @@ def main():
         random_job = Faker("ru_RU").job()
         random_city = Faker("ru_RU").city()
         
-        current_skills = sample(skills, 3)
+        current_skills = sample(SKILLS, 3)
         runic_skills = []
         for skill in current_skills:
             for letter in skill:
-                skill = skill.replace(letter, runic_alphabet[letter])
+                skill = skill.replace(letter, RUNIC_ALPHABET[letter])
             runic_skills.append(skill)
         context = {
             "first_name": random_name,
@@ -116,7 +116,11 @@ def main():
             "skill_3": runic_skills[2]
         }
         file_operations.render_template("charsheet.svg", f"{file_path}/character{number+1}.svg", context)
-        
+
+
+def main():
+    create_characters()        
+
         
 if __name__ == '__main__':
     main()
